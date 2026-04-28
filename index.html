@@ -458,6 +458,22 @@
             }
         }
 
+        /* ============ MOBILE PERF GUARDS ============ */
+        @media (max-width: 1023px), (pointer: coarse) {
+            /* backdrop-filter is GPU-expensive on phones (esp. Safari iOS) */
+            .sticky-nav {
+                background: var(--paper) !important;
+                backdrop-filter: none !important;
+                -webkit-backdrop-filter: none !important;
+                border-bottom: 1px solid var(--ink);
+            }
+            .mobile-menu__overlay { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+            /* mix-blend-mode forces a compositing layer — drop on coarse pointer */
+            .product .specimen img { mix-blend-mode: normal; }
+            /* Cheaper hover scale */
+            .float-badge, .float-badge-delay { animation: none !important; }
+        }
+
         /* ============================================ */
         /* ============== ANIMATE LAYER ============== */
         /* ============================================ */
@@ -760,8 +776,8 @@
         <!-- ============ HERO ============ -->
         <section id="top" class="hero">
             <!-- Background video -->
-            <video autoplay muted loop playsinline poster="peptide_assemble.jpg" preload="metadata" aria-hidden="true">
-                <source src="hero_video.mp4" type="video/mp4">
+            <video autoplay muted loop playsinline poster="peptide_assemble.jpg" preload="none" aria-hidden="true">
+                <source src="hero_video.mp4" type="video/mp4" media="(min-width: 1024px) and (pointer: fine)">
             </video>
             <div class="hero-veil"></div>
 
@@ -1287,6 +1303,9 @@
 
     <script>
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
+    const isSmallScreen = window.matchMedia('(max-width: 1023px)').matches;
+    const skipFancy = reduceMotion || isCoarsePointer || isSmallScreen;
 
     /* ---------- Scroll Reveal ---------- */
     const observer = new IntersectionObserver((entries) => {
@@ -1341,7 +1360,7 @@
     }, { passive: true });
 
     /* ---------- Magnetic CTAs ---------- */
-    if (!reduceMotion) {
+    if (!skipFancy) {
         document.querySelectorAll('.btn').forEach(btn => {
             btn.classList.add('magnetic');
             btn.addEventListener('pointermove', (e) => {
@@ -1403,7 +1422,7 @@
     })();
 
     /* ---------- Specimen tag parallax ---------- */
-    if (!reduceMotion) {
+    if (!skipFancy) {
         const heroSection = document.querySelector('.hero');
         const tags = heroSection ? heroSection.querySelectorAll('.specimen-tag') : [];
         if (heroSection && tags.length) {

@@ -709,6 +709,30 @@
             }
         }
 
+        /* ============ MOBILE PERF GUARDS ============ */
+        @media (max-width: 1023px), (pointer: coarse) {
+            .sticky-nav {
+                background: var(--paper) !important;
+                backdrop-filter: none !important;
+                -webkit-backdrop-filter: none !important;
+                border-bottom: 1px solid var(--ink);
+            }
+            .filter-strip.is-stuck {
+                background: var(--paper);
+                backdrop-filter: none;
+                -webkit-backdrop-filter: none;
+            }
+            .product-modal__overlay {
+                background: rgba(20, 22, 30, 0.85);
+                backdrop-filter: none !important;
+                -webkit-backdrop-filter: none !important;
+            }
+            .mobile-menu__overlay { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+            /* mix-blend-mode = compositing layer per card. With 94 cards, drop on phones. */
+            .product-card-vial img { mix-blend-mode: normal; }
+            .modal-vial-area > img { mix-blend-mode: normal; }
+        }
+
         /* ============ PRODUCT MODAL ============ */
         .product-modal {
             position: fixed;
