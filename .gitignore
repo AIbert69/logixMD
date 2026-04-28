@@ -1,0 +1,19 @@
+# Research materials, not for production
+PRODUCTS/
+*.docx
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Node (none currently, but standard)
+node_modules/
+npm-debug.log*
+
+# Logs
+*.log
+
+# Claude Code local settings
+.claude/

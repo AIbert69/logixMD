@@ -1,0 +1,1710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#15171f">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Peplogix Catalogue">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="description" content="Peplogix catalogue. 94 peptide and metabolic-support formulations. Lot-level testing, third-party review, clinician-guided protocols.">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="logixMD_logo.png">
+    <title>Catalogue · Peplogix</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400..800;1,400..700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        :root {
+            --paper:        oklch(99% 0.003 250);
+            --paper-warm:   oklch(96.5% 0.004 250);
+            --ink:          oklch(15% 0.012 250);
+            --ink-soft:     oklch(38% 0.012 250);
+            --ink-mute:     oklch(58% 0.010 250);
+            --rule:         oklch(88% 0.005 250);
+            --rule-strong:  oklch(75% 0.006 250);
+            --copper:       oklch(64% 0.16 42);
+            --copper-deep:  oklch(54% 0.17 40);
+            --slate:        oklch(20% 0.018 250);
+            --slate-soft:   oklch(26% 0.018 250);
+        }
+
+        html { scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
+
+        body {
+            background: var(--paper);
+            color: var(--ink);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-feature-settings: "ss01", "cv11";
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .display-xl   { font-family: 'Inter Tight', 'Inter', sans-serif; font-weight: 700; letter-spacing: -0.045em; line-height: 0.94; }
+        .display-l    { font-family: 'Inter Tight', 'Inter', sans-serif; font-weight: 700; letter-spacing: -0.035em; line-height: 1.0; }
+        .display-m    { font-family: 'Inter Tight', 'Inter', sans-serif; font-weight: 600; letter-spacing: -0.025em; line-height: 1.08; }
+        .display-s    { font-family: 'Inter Tight', 'Inter', sans-serif; font-weight: 600; letter-spacing: -0.015em; line-height: 1.2; }
+
+        .eyebrow, .meta {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--ink-soft);
+        }
+        .meta { color: var(--ink-mute); }
+
+        .ink         { color: var(--ink); }
+        .ink-soft    { color: var(--ink-soft); }
+        .ink-mute    { color: var(--ink-mute); }
+        .copper      { color: var(--copper); }
+        .bg-paper    { background: var(--paper); }
+        .bg-bone     { background: var(--paper-warm); }
+        .bg-slate    { background: var(--slate); }
+        .border-rule { border-color: var(--rule); }
+        .border-ink  { border-color: var(--ink); }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex; align-items: center; gap: 10px;
+            padding: 14px 22px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 500;
+            border-radius: 0;
+            position: relative;
+            overflow: hidden;
+            isolation: isolate;
+            transition: color 280ms cubic-bezier(0.16,1,0.3,1), border-color 280ms;
+            will-change: transform;
+            cursor: pointer;
+        }
+        .btn::before {
+            content: "";
+            position: absolute; inset: 0;
+            background: var(--copper);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 480ms cubic-bezier(0.7, 0, 0.2, 1);
+            z-index: -1;
+        }
+        .btn:hover::before { transform: scaleX(1); }
+        .btn-primary { background: var(--ink); color: var(--paper); }
+        .btn-primary:hover { color: var(--paper); }
+        .btn-ghost { background: transparent; color: var(--ink); border: 1px solid var(--ink); }
+        .btn-ghost::before { background: var(--ink); }
+        .btn-ghost:hover { color: var(--paper); border-color: var(--ink); }
+        .btn-on-dark { background: var(--paper); color: var(--ink); }
+        .btn-on-dark::before { background: var(--copper); }
+        .btn-on-dark:hover { color: var(--paper); }
+
+        .btn .arrow {
+            transition: transform 380ms cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: inline-block;
+        }
+        .btn:hover .arrow { transform: translateX(8px); }
+
+        .link-ink {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 500;
+            color: var(--ink);
+            padding-bottom: 4px;
+            position: relative;
+            transition: color 200ms;
+            display: inline-block;
+        }
+        .link-ink::after {
+            content: ""; position: absolute; left: 0; right: 0; bottom: 0;
+            height: 1px; background: currentColor; transform-origin: left;
+            transition: transform 380ms cubic-bezier(0.16,1,0.3,1);
+        }
+        .link-ink::before {
+            content: ""; position: absolute; left: 0; bottom: 0;
+            width: 100%; height: 1px; background: var(--copper);
+            transform: scaleX(0); transform-origin: right;
+            transition: transform 380ms cubic-bezier(0.16,1,0.3,1);
+        }
+        .link-ink:hover { color: var(--copper); }
+        .link-ink:hover::after { transform: scaleX(0); transform-origin: right; }
+        .link-ink:hover::before { transform: scaleX(1); transform-origin: left; transition-delay: 120ms; }
+
+        .hr-ink { height: 1px; background: var(--ink); width: 100%; }
+        .hr-rule { height: 1px; background: var(--rule); width: 100%; }
+
+        /* Reveal */
+        .reveal {
+            opacity: 0; transform: translateY(24px);
+            transition: opacity 700ms cubic-bezier(0.16,1,0.3,1), transform 700ms cubic-bezier(0.16,1,0.3,1);
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .stagger-children > * {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 700ms cubic-bezier(0.16,1,0.3,1), transform 700ms cubic-bezier(0.16,1,0.3,1);
+        }
+        .stagger-children.visible > *,
+        .reveal.visible .stagger-children > * { opacity: 1; transform: translateY(0); }
+        .stagger-children.visible > *:nth-child(n+1),
+        .reveal.visible .stagger-children > *:nth-child(n+1) { transition-delay: 0ms; }
+
+        /* Skip link */
+        .skip-link {
+            position: absolute; top: -40px; left: 8px;
+            background: var(--ink); color: var(--paper);
+            padding: 8px 12px; z-index: 999;
+            font-family: 'JetBrains Mono', monospace; font-size: 12px;
+        }
+        .skip-link:focus { top: 8px; }
+
+        ::selection { background: var(--copper); color: var(--paper); }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--paper); }
+        ::-webkit-scrollbar-thumb { background: var(--rule-strong); }
+        ::-webkit-scrollbar-thumb:hover { background: var(--ink-soft); }
+
+        /* Sticky condensed nav */
+        .sticky-nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 80;
+            background: oklch(99% 0.003 250 / 0.92);
+            backdrop-filter: saturate(140%) blur(14px);
+            -webkit-backdrop-filter: saturate(140%) blur(14px);
+            border-bottom: 1px solid var(--rule);
+            transform: translateY(-100%);
+            transition: transform 420ms cubic-bezier(0.16,1,0.3,1);
+        }
+        .sticky-nav.visible { transform: translateY(0); }
+        .sticky-nav .inner {
+            max-width: 1480px; margin: 0 auto;
+            padding: 12px 20px;
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 24px;
+        }
+        .sticky-nav img { height: 44px; width: auto; }
+        .sticky-nav .links { display: flex; gap: 28px; }
+        .sticky-nav .links a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+            color: var(--ink-soft);
+            transition: color 200ms;
+        }
+        .sticky-nav .links a:hover { color: var(--copper); }
+        .sticky-nav .cta-mini {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 500;
+            background: var(--ink); color: var(--paper);
+            padding: 10px 16px;
+            display: inline-flex; align-items: center; gap: 8px;
+            position: relative; overflow: hidden; isolation: isolate;
+        }
+        .sticky-nav .cta-mini::before {
+            content: ""; position: absolute; inset: 0;
+            background: var(--copper);
+            transform: scaleX(0); transform-origin: left;
+            transition: transform 420ms cubic-bezier(0.7,0,0.2,1);
+            z-index: -1;
+        }
+        .sticky-nav .cta-mini:hover::before { transform: scaleX(1); }
+        @media (max-width: 768px) {
+            .sticky-nav .links { display: none; }
+            .sticky-nav img { height: 36px; }
+        }
+
+        /* ============ HEADER ============ */
+        .header-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--ink);
+        }
+        .header-nav-left {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            min-width: 0;
+        }
+        .header-logo {
+            display: inline-flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        .header-logo img {
+            height: 56px;
+            width: auto;
+            display: block;
+        }
+        .header-divider {
+            display: none;
+            width: 1px;
+            height: 28px;
+            background: var(--rule-strong);
+        }
+        @media (min-width: 1024px) {
+            .header-divider { display: inline-block; }
+            .header-logo img { height: 64px; }
+            .header-nav { padding: 18px 0; }
+            .header-nav-left { gap: 32px; }
+        }
+        .header-links {
+            display: flex;
+            align-items: center;
+            gap: 26px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+        .header-links a {
+            color: var(--ink-soft);
+            position: relative;
+            padding: 6px 0;
+            transition: color 220ms;
+        }
+        .header-links a:hover { color: var(--ink); }
+        .header-links a.is-active {
+            color: var(--ink);
+        }
+        .header-links a.is-active::after {
+            content: "";
+            position: absolute;
+            left: 0; right: 0; bottom: -2px;
+            height: 2px;
+            background: var(--copper);
+        }
+
+        .header-nav-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-shrink: 0;
+        }
+        .header-md-login {
+            display: none;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--ink-soft);
+            transition: color 220ms;
+        }
+        .header-md-login:hover { color: var(--copper); }
+        @media (min-width: 768px) {
+            .header-md-login { display: inline-block; }
+        }
+        .header-cart {
+            position: relative;
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--ink);
+            background: transparent;
+            color: var(--ink);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 220ms, color 220ms;
+            cursor: pointer;
+        }
+        .header-cart:hover {
+            background: var(--ink);
+            color: var(--paper);
+        }
+        .header-cart-count {
+            position: absolute;
+            top: -7px;
+            right: -7px;
+            min-width: 18px;
+            height: 18px;
+            padding: 0 4px;
+            background: var(--copper);
+            color: var(--paper);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+
+        @media (max-width: 1023px) {
+            .header-links { display: none; }
+        }
+
+        /* ============ PAGE-SPECIFIC: catalogue ============ */
+        .page-head {
+            border-bottom: 1px solid var(--ink);
+            padding: 40px 0 56px;
+        }
+
+        /* Filter strip */
+        .filter-strip {
+            border-top: 1px solid var(--rule);
+            border-bottom: 1px solid var(--ink);
+            background: var(--paper);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            padding: 14px 0;
+        }
+        .filter-strip.is-stuck {
+            background: oklch(99% 0.003 250 / 0.96);
+            backdrop-filter: saturate(140%) blur(10px);
+            -webkit-backdrop-filter: saturate(140%) blur(10px);
+            top: 64px;
+        }
+        .filter-row {
+            display: flex; align-items: center; gap: 12px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .filter-row::-webkit-scrollbar { display: none; }
+        .filter-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+            color: var(--ink-mute);
+            padding: 6px 10px 6px 0;
+            flex-shrink: 0;
+        }
+        .filter-chip {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+            color: var(--ink);
+            padding: 8px 14px;
+            border: 1px solid var(--rule-strong);
+            background: transparent;
+            cursor: pointer;
+            transition: all 220ms cubic-bezier(0.16,1,0.3,1);
+            white-space: nowrap;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+            isolation: isolate;
+        }
+        .filter-chip::before {
+            content: ""; position: absolute; inset: 0;
+            background: var(--ink);
+            transform: scaleX(0); transform-origin: left;
+            transition: transform 320ms cubic-bezier(0.7,0,0.2,1);
+            z-index: -1;
+        }
+        .filter-chip:hover::before { transform: scaleX(1); }
+        .filter-chip:hover { color: var(--paper); border-color: var(--ink); }
+        .filter-chip.is-active {
+            color: var(--paper);
+            border-color: var(--ink);
+            background: var(--ink);
+        }
+        .filter-chip.is-active::before {
+            background: var(--copper);
+            transform: scaleX(1);
+        }
+        .filter-count {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px; letter-spacing: 0.04em;
+            color: var(--ink-mute);
+            margin-left: auto;
+            padding-left: 16px;
+            flex-shrink: 0;
+        }
+        .filter-count strong {
+            color: var(--ink);
+            font-weight: 500;
+        }
+
+        /* Product card */
+        .product-card {
+            display: flex;
+            flex-direction: column;
+            background: var(--paper);
+            border-top: 1px solid var(--ink);
+            transition: transform 380ms cubic-bezier(0.16,1,0.3,1);
+            position: relative;
+            cursor: pointer;
+            isolation: isolate;
+        }
+        .product-card:hover { transform: translateY(-4px); }
+
+        .product-card-vial {
+            background: transparent;
+            height: 280px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding: 28px 18px 0;
+            border-bottom: 1px solid var(--rule);
+        }
+        .product-card-vial::after {
+            content: ""; position: absolute;
+            left: 50%; right: 50%; bottom: -1px; height: 2px;
+            background: var(--copper);
+            transition: left 520ms cubic-bezier(0.7,0,0.2,1), right 520ms cubic-bezier(0.7,0,0.2,1);
+        }
+        .product-card:hover .product-card-vial::after { left: 0; right: 0; }
+        .product-card-vial img {
+            height: 100%;
+            width: auto;
+            max-width: 92%;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+            transition: transform 600ms cubic-bezier(0.16,1,0.3,1);
+        }
+        .product-card:hover .product-card-vial img { transform: translateY(-6px); }
+
+        .product-card-meta-top {
+            position: absolute;
+            top: 14px; left: 18px; right: 18px;
+            display: flex; align-items: baseline; justify-content: space-between;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+            color: var(--ink-mute);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .product-card-info {
+            padding: 18px 22px 10px;
+        }
+        .product-card-info .product-name {
+            font-family: 'Inter Tight', sans-serif;
+            font-weight: 700;
+            font-size: 22px;
+            letter-spacing: -0.025em;
+            line-height: 1.05;
+            color: var(--ink);
+            transition: color 240ms;
+        }
+        .product-card:hover .product-card-info .product-name { color: var(--copper); }
+        .product-card-info .product-sub {
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 13px;
+            color: var(--ink-mute);
+            margin-top: 4px;
+            letter-spacing: -0.005em;
+        }
+        .product-card-info .product-badges {
+            display: flex; gap: 8px; align-items: center;
+            margin-top: 14px;
+            flex-wrap: wrap;
+        }
+        .product-card-info .badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+            padding: 4px 8px;
+            border: 1px solid var(--rule-strong);
+            color: var(--ink-soft);
+        }
+        .product-card-info .badge-purity { color: var(--copper); border-color: var(--copper); }
+
+        .product-card-foot {
+            padding: 12px 22px 20px;
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            background: var(--paper);
+        }
+        .product-card .price-row {
+            display: flex; align-items: baseline; gap: 10px;
+        }
+        .product-card .price-now {
+            font-family: 'Inter Tight', sans-serif;
+            font-weight: 700;
+            font-size: 22px;
+            color: var(--ink);
+            letter-spacing: -0.02em;
+        }
+        .product-card .price-was {
+            font-family: 'Inter Tight', sans-serif;
+            font-weight: 500;
+            font-size: 14px;
+            color: var(--ink-mute);
+            text-decoration: line-through;
+            letter-spacing: -0.005em;
+        }
+        .product-card .price-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+            color: var(--copper);
+            margin-left: auto;
+        }
+        .product-card .add-cta {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 14px 18px;
+            background: var(--ink);
+            color: var(--paper);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 500;
+            border: 0;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            isolation: isolate;
+            transition: color 280ms;
+            width: 100%;
+        }
+        .product-card .add-cta::before {
+            content: ""; position: absolute; inset: 0;
+            background: var(--copper);
+            transform: scaleX(0); transform-origin: left;
+            transition: transform 480ms cubic-bezier(0.7,0,0.2,1);
+            z-index: -1;
+        }
+        .product-card .add-cta:hover::before, .product-card:hover .add-cta::before { transform: scaleX(1); }
+        .product-card .add-cta .arrow {
+            transition: transform 380ms cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: inline-block;
+        }
+        .product-card:hover .add-cta .arrow { transform: translateX(6px); }
+
+        /* Product grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+            border-bottom: 1px solid var(--ink);
+        }
+        .product-card {
+            border-right: 1px solid var(--ink);
+        }
+        .product-card:nth-child(4n) {
+            border-right: 0;
+        }
+        .product-card.hidden {
+            display: none;
+        }
+        @media (max-width: 1023px) {
+            .product-grid { grid-template-columns: repeat(3, 1fr); }
+            .product-card:nth-child(4n) { border-right: 1px solid var(--ink); }
+            .product-card:nth-child(3n) { border-right: 0; }
+        }
+        @media (max-width: 767px) {
+            .product-grid { grid-template-columns: repeat(2, 1fr); }
+            .product-card:nth-child(3n) { border-right: 1px solid var(--ink); }
+            .product-card:nth-child(2n) { border-right: 0; }
+        }
+        @media (max-width: 480px) {
+            .product-grid { grid-template-columns: 1fr; }
+            .product-card { border-right: 0 !important; }
+            .product-card-head { min-height: 200px; }
+        }
+
+        /* Empty state */
+        .empty-state {
+            padding: 80px 24px;
+            text-align: center;
+            border-bottom: 1px solid var(--ink);
+            display: none;
+        }
+        .empty-state.is-visible { display: block; }
+
+        /* Subscribe input */
+        .sub-row {
+            display: flex; align-items: stretch;
+            border: 1px solid var(--ink);
+        }
+        .sub-row input {
+            flex: 1; background: transparent; border: 0; outline: 0;
+            padding: 16px 20px;
+            font-family: 'Inter', sans-serif; font-size: 15px; color: var(--ink);
+        }
+        .sub-row input::placeholder { color: var(--ink-mute); }
+        .sub-row button {
+            padding: 0 24px;
+            background: var(--ink); color: var(--paper);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+            transition: background 220ms;
+            border: 0; cursor: pointer;
+        }
+        .sub-row button:hover { background: var(--copper-deep); }
+        .sub-row:focus-within { border-color: var(--copper); }
+
+        /* Mobile */
+        @supports (padding: env(safe-area-inset-bottom)) {
+            .bottom-nav { padding-bottom: env(safe-area-inset-bottom); }
+            body { padding-bottom: env(safe-area-inset-bottom); }
+        }
+        .bottom-nav {
+            display: none;
+            position: fixed; bottom: 0; left: 0; right: 0;
+            z-index: 200;
+            background: var(--paper);
+            border-top: 1px solid var(--ink);
+            padding: 10px 0;
+        }
+        .bottom-nav a {
+            display: flex; flex-direction: column; align-items: center; gap: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+            color: var(--ink-mute);
+            transition: color 0.2s;
+        }
+        .bottom-nav a.active { color: var(--copper); }
+
+        .mobile-menu-btn {
+            display: none;
+            width: 40px; height: 40px;
+            border: 1px solid currentColor;
+            align-items: center; justify-content: center;
+            font-size: 16px;
+        }
+        .mobile-menu {
+            display: none;
+            position: fixed; inset: 0; z-index: 300;
+        }
+        .mobile-menu.open { display: flex; }
+        .mobile-menu__overlay {
+            position: absolute; inset: 0;
+            background: rgba(20,22,30,0.55);
+        }
+        .mobile-menu__panel {
+            position: absolute; right: 0; top: 0; bottom: 0;
+            width: 320px; max-width: 85vw;
+            background: var(--paper);
+            padding: 28px;
+            transform: translateX(100%);
+            transition: transform 380ms cubic-bezier(0.16,1,0.3,1);
+            border-left: 1px solid var(--ink);
+        }
+        .mobile-menu.open .mobile-menu__panel { transform: translateX(0); }
+        .mobile-menu__link {
+            display: flex; align-items: baseline; justify-content: space-between;
+            padding: 18px 0;
+            color: var(--ink);
+            font-family: 'Inter Tight', sans-serif;
+            font-weight: 600;
+            font-size: 22px;
+            letter-spacing: -0.025em;
+            border-bottom: 1px solid var(--rule);
+            transition: color 200ms;
+        }
+        .mobile-menu__link::after {
+            content: attr(data-num);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px; letter-spacing: 0.08em;
+            color: var(--ink-mute);
+        }
+        .mobile-menu__link:hover, .mobile-menu__link.active { color: var(--copper); }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn { display: flex; }
+            .bottom-nav { display: flex; justify-content: space-around; }
+            body { padding-bottom: 76px; }
+            .desktop-nav { display: none !important; }
+            .filter-strip { top: 0; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* ============ PRODUCT MODAL ============ */
+        .product-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+        .product-modal.is-open { display: flex; }
+        .product-modal__overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(20, 22, 30, 0.55);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            opacity: 0;
+            animation: modalFadeIn 280ms cubic-bezier(0.16,1,0.3,1) forwards;
+            cursor: pointer;
+        }
+        .product-modal__panel {
+            position: relative;
+            background: var(--paper);
+            width: 100%;
+            max-width: 1080px;
+            max-height: 92vh;
+            overflow-y: auto;
+            border: 1px solid var(--ink);
+            transform: translateY(20px) scale(0.985);
+            opacity: 0;
+            animation: modalRise 420ms cubic-bezier(0.16,1,0.3,1) 80ms forwards;
+        }
+        @keyframes modalFadeIn { to { opacity: 1; } }
+        @keyframes modalRise { to { transform: translateY(0) scale(1); opacity: 1; } }
+
+        .product-modal__close {
+            position: absolute;
+            top: 18px; right: 18px;
+            width: 40px; height: 40px;
+            border: 1px solid var(--ink);
+            background: var(--paper);
+            color: var(--ink);
+            font-size: 14px;
+            cursor: pointer;
+            z-index: 5;
+            transition: background 220ms, color 220ms;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .product-modal__close:hover {
+            background: var(--ink);
+            color: var(--paper);
+        }
+
+        .product-modal__inner {
+            display: grid;
+            grid-template-columns: 5fr 7fr;
+            min-height: 540px;
+        }
+        @media (max-width: 768px) {
+            .product-modal__inner { grid-template-columns: 1fr; }
+        }
+
+        .modal-vial-area {
+            background: var(--paper-warm);
+            padding: 56px 32px 36px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            border-right: 1px solid var(--rule);
+            min-height: 480px;
+        }
+        @media (max-width: 768px) {
+            .modal-vial-area {
+                border-right: 0;
+                border-bottom: 1px solid var(--rule);
+                min-height: 400px;
+            }
+        }
+        .modal-meta-strip {
+            align-self: stretch;
+            display: flex; justify-content: space-between;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+            color: var(--ink-mute);
+        }
+        .modal-vial-area > img {
+            height: 320px;
+            width: auto;
+            max-width: 90%;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+            margin: 24px 0;
+        }
+        .modal-tags {
+            align-self: stretch;
+            display: flex; gap: 8px; justify-content: flex-start;
+        }
+        .modal-tags .badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+            padding: 4px 8px;
+            border: 1px solid var(--rule-strong);
+            color: var(--ink-soft);
+        }
+        .modal-tags .badge-purity { color: var(--copper); border-color: var(--copper); }
+
+        .modal-details {
+            padding: 56px 40px 36px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        @media (max-width: 768px) {
+            .modal-details { padding: 36px 24px 28px; }
+        }
+        .modal-details .meta-line {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+            color: var(--ink-mute);
+        }
+        .modal-name {
+            font-family: 'Inter Tight', sans-serif;
+            font-weight: 700;
+            font-size: 38px;
+            letter-spacing: -0.03em;
+            line-height: 1.05;
+            color: var(--ink);
+            margin: -8px 0 0;
+        }
+        .modal-sub {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            color: var(--ink-mute);
+            margin-top: -6px;
+        }
+        .modal-sale-pill {
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+            color: var(--copper);
+            border: 1px solid var(--copper);
+            padding: 4px 8px;
+            align-self: flex-start;
+        }
+        .modal-prices {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            border-top: 1px solid var(--rule);
+            padding-top: 18px;
+        }
+        .modal-prices .price-now {
+            font-family: 'Inter Tight', sans-serif;
+            font-weight: 700;
+            font-size: 38px;
+            letter-spacing: -0.03em;
+            color: var(--ink);
+            line-height: 1;
+        }
+        .modal-prices .price-was {
+            font-family: 'Inter Tight', sans-serif;
+            font-weight: 500;
+            font-size: 18px;
+            color: var(--ink-mute);
+            text-decoration: line-through;
+        }
+        .modal-description {
+            color: var(--ink-soft);
+            font-size: 15px;
+            line-height: 1.65;
+            border-top: 1px solid var(--rule);
+            padding-top: 18px;
+        }
+        .modal-spec-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px 24px;
+            border-top: 1px solid var(--rule);
+            padding-top: 18px;
+        }
+        .modal-spec-grid > div {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .modal-spec-grid .label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+            color: var(--ink-mute);
+        }
+        .modal-spec-grid .value {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            color: var(--ink);
+        }
+        .modal-cta-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+        }
+        .qty {
+            display: flex;
+            align-items: stretch;
+            border: 1px solid var(--ink);
+            flex-shrink: 0;
+        }
+        .qty button {
+            width: 44px;
+            background: transparent;
+            border: 0;
+            color: var(--ink);
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 18px;
+            font-weight: 500;
+            transition: background 220ms, color 220ms;
+        }
+        .qty button:hover { background: var(--ink); color: var(--paper); }
+        .qty input {
+            width: 52px;
+            border: 0;
+            border-left: 1px solid var(--ink);
+            border-right: 1px solid var(--ink);
+            text-align: center;
+            font-family: 'Inter Tight', sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--ink);
+            background: transparent;
+            outline: none;
+            -moz-appearance: textfield;
+        }
+        .qty input::-webkit-inner-spin-button,
+        .qty input::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        .modal-add {
+            flex: 1;
+            background: var(--ink);
+            color: var(--paper);
+            border: 0;
+            padding: 0 24px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+            isolation: isolate;
+            transition: color 280ms;
+            min-height: 50px;
+        }
+        .modal-add::before {
+            content: ""; position: absolute; inset: 0;
+            background: var(--copper);
+            transform: scaleX(0); transform-origin: left;
+            transition: transform 480ms cubic-bezier(0.7,0,0.2,1);
+            z-index: -1;
+        }
+        .modal-add:hover::before { transform: scaleX(1); }
+        .modal-add .arrow {
+            transition: transform 380ms cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: inline-block;
+        }
+        .modal-add:hover .arrow { transform: translateX(8px); }
+        .modal-disclaimer {
+            margin-top: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.06em;
+            color: var(--ink-mute);
+            line-height: 1.7;
+            border-top: 1px solid var(--rule);
+            padding-top: 16px;
+        }
+        .modal-disclaimer a {
+            color: var(--ink);
+            border-bottom: 1px solid var(--copper);
+            padding-bottom: 1px;
+            transition: color 200ms;
+        }
+        .modal-disclaimer a:hover { color: var(--copper); }
+
+        body.modal-open { overflow: hidden; }
+
+        /* Stub link toast */
+        .stub-toast {
+            position: fixed;
+            bottom: 24px; left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            background: var(--ink); color: var(--paper);
+            padding: 14px 18px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+            display: flex; align-items: center; gap: 10px;
+            z-index: 999;
+            opacity: 0; pointer-events: none;
+            transition: transform 380ms cubic-bezier(0.16,1,0.3,1), opacity 280ms;
+            border-left: 2px solid var(--copper);
+        }
+        .stub-toast.visible {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        @media (max-width: 768px) {
+            .stub-toast { bottom: 96px; }
+        }
+    </style>
+</head>
+<body>
+
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <!-- Sticky condensed nav -->
+    <div id="stickyNav" class="sticky-nav" aria-hidden="true">
+        <div class="inner">
+            <a href="index.html" class="flex items-center" aria-label="LogixMD home">
+                <img src="logixMD_logo.png" alt="LogixMD">
+            </a>
+            <div class="links">
+                <a href="products.html">Products</a>
+                <a href="index.html#testing">Testing</a>
+                <a href="#medical-review" data-stub>Medical Review</a>
+                <a href="#faq" data-stub>FAQ</a>
+                <a href="index.html#contact">Contact</a>
+            </div>
+            <a href="#medical-review" data-stub class="cta-mini">
+                Start Medical Review <span>→</span>
+            </a>
+        </div>
+    </div>
+
+    <div id="main" class="max-w-[1480px] mx-auto px-5 sm:px-8 lg:px-12 pt-6 pb-24">
+
+        <!-- ============ NAV ============ -->
+        <nav class="header-nav">
+            <div class="header-nav-left">
+                <a href="index.html" aria-label="LogixMD home" class="header-logo">
+                    <img src="logixMD_logo.png" alt="LogixMD">
+                </a>
+                <span class="header-divider" aria-hidden="true"></span>
+                <div class="header-links desktop-nav">
+                    <a href="index.html">Home</a>
+                    <a href="products.html" class="is-active" aria-current="page">Products</a>
+                    <a href="index.html#testing">Testing</a>
+                    <a href="#medical-review" data-stub>Medical Review</a>
+                    <a href="#faq" data-stub>FAQ</a>
+                    <a href="index.html#contact">Contact</a>
+                </div>
+            </div>
+            <div class="header-nav-right">
+                <a href="#md-login" data-stub class="header-md-login" aria-label="Physician portal: MD login">MD&nbsp;Login&nbsp;<span aria-hidden="true">→</span></a>
+                <button type="button" class="header-cart" aria-label="Open cart" data-stub="#cart">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h2.5l2.4 12.3a2 2 0 0 0 2 1.7h8.7a2 2 0 0 0 2-1.6L21 8H6"/><circle cx="9" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/></svg>
+                    <span class="header-cart-count" id="cartCount">0</span>
+                </button>
+                <button type="button" class="mobile-menu-btn ink" aria-label="Open menu" onclick="document.getElementById('mobileMenu').classList.add('open')">☰</button>
+            </div>
+        </nav>
+
+        <!-- ============ PAGE HEAD ============ -->
+        <section class="page-head reveal">
+            <div class="flex items-center gap-4 mb-10">
+                <span class="meta">§ Catalogue · 2026.04</span>
+                <span class="hr-ink flex-1"></span>
+                <span class="meta"><strong style="color: var(--ink); font-weight: 500;">94</strong> formulations</span>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
+                <h1 class="lg:col-span-7 display-xl text-[44px] sm:text-[72px] lg:text-[110px] ink">
+                    All <em class="copper" style="font-style: italic;">peptides.</em><br>
+                    One catalogue.
+                </h1>
+                <div class="lg:col-span-5 lg:pt-10 space-y-6 ink-soft text-[16px] leading-[1.6]">
+                    <p>The complete Peplogix catalogue. Every formulation lab-verified for identity and purity, supported by batch-level documentation, and designed for clinician-guided use.</p>
+                    <p class="meta" style="color: var(--ink); font-size: 11px;">Research use only · Not for human or veterinary use without medical review.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ FILTER STRIP ============ -->
+        <section id="filters" class="filter-strip">
+            <div class="filter-row" role="group" aria-label="Filter products by category">
+                <span class="filter-label">Category</span>
+                <button class="filter-chip is-active" data-filter="all">All</button>
+                <button class="filter-chip" data-filter="metabolic">Metabolic</button>
+                <button class="filter-chip" data-filter="cognitive">Cognitive</button>
+                <button class="filter-chip" data-filter="healing">Healing</button>
+                <button class="filter-chip" data-filter="longevity">Longevity</button>
+                <button class="filter-chip" data-filter="immunity">Immunity</button>
+                <button class="filter-chip" data-filter="sexual">Sexual Health</button>
+                <button class="filter-chip" data-filter="strength">Strength</button>
+                <button class="filter-chip" data-filter="skin">Skin</button>
+                <button class="filter-chip" data-filter="research">Research</button>
+                <span class="filter-count"><strong id="visibleCount">94</strong>&nbsp;/&nbsp;94</span>
+            </div>
+        </section>
+
+        <!-- ============ PRODUCT GRID ============ -->
+        <section id="catalogue" class="reveal">
+            <div id="productGrid" class="product-grid"></div>
+            <div id="emptyState" class="empty-state">
+                <p class="meta mb-4">No formulations match this filter.</p>
+                <button class="link-ink" onclick="setFilter('all')">Clear filter</button>
+            </div>
+        </section>
+
+        <!-- ============ FOOTNOTE ============ -->
+        <section class="reveal py-16 border-t border-rule">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
+                <div class="lg:col-span-5">
+                    <div class="meta mb-5">§ Compliance</div>
+                    <h3 class="display-m text-[28px] md:text-[36px] ink">Research, document, decide.</h3>
+                </div>
+                <div class="lg:col-span-7 space-y-4 ink-soft text-[14px] leading-[1.7]">
+                    <p>All listed peptide products are supplied for research, laboratory, and qualified clinical use. Where applicable, products are not FDA-approved and have not been reviewed by FDA for safety, effectiveness, or quality before marketing.</p>
+                    <p>Product use should be reviewed with a licensed medical professional. Every shipment includes lot identification; Certificates of Analysis are available on request via the product detail page or by contacting the team directly.</p>
+                    <a href="index.html#testing" class="link-ink mt-2 inline-block">Read the testing standards</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ SUBSCRIBE ============ -->
+        <section class="reveal">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start border-y border-ink py-16">
+                <div class="lg:col-span-6">
+                    <div class="meta mb-6">§ Correspondence</div>
+                    <h2 class="display-l text-[44px] md:text-[60px] lg:text-[72px] ink">
+                        Stay in the <em class="copper" style="font-style: italic;">loop.</em>
+                    </h2>
+                </div>
+                <div class="lg:col-span-6 lg:pt-8">
+                    <p class="ink-soft text-[15px] leading-[1.65] mb-6 max-w-[52ch]">Catalogue updates, new formulations, batch testing announcements, and educational resources. Quarterly. No spam.</p>
+                    <form class="sub-row" onsubmit="event.preventDefault();">
+                        <label for="email" class="sr-only">Email address</label>
+                        <input id="email" name="email" type="email" placeholder="your@email.com" required>
+                        <button type="submit">Subscribe</button>
+                    </form>
+                    <p class="meta mt-4">By subscribing you agree to our privacy policy.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ FOOTER ============ -->
+        <footer class="pt-16">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-12 mb-16">
+                <div class="md:col-span-4 space-y-6">
+                    <img src="logixMD_logo.png" alt="LogixMD" class="h-[120px] w-auto block">
+                    <p class="ink-soft text-[15px] leading-relaxed max-w-[36ch]">
+                        Lab-verified peptide formulations developed around responsible, clinician-guided use.
+                    </p>
+                    <div class="meta">Est. 2026 · Compounding facility</div>
+                </div>
+                <div class="md:col-span-2">
+                    <h4 class="meta mb-6">Menu</h4>
+                    <ul class="space-y-3 text-[15px] ink">
+                        <li><a href="index.html" class="ink-soft hover:ink transition">Home</a></li>
+                        <li><a href="products.html" class="ink-soft hover:ink transition">Products</a></li>
+                        <li><a href="index.html#testing" class="ink-soft hover:ink transition">Testing</a></li>
+                        <li><a href="#medical-review" data-stub class="ink-soft hover:ink transition">Medical Review</a></li>
+                        <li><a href="#faq" data-stub class="ink-soft hover:ink transition">FAQ</a></li>
+                        <li><a href="index.html#contact" class="ink-soft hover:ink transition">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="md:col-span-3">
+                    <h4 class="meta mb-6">Quick Links</h4>
+                    <ul class="space-y-3 text-[15px] ink">
+                        <li><a href="#legal" data-stub class="ink-soft hover:ink transition">Legal</a></li>
+                        <li><a href="#register" data-stub class="ink-soft hover:ink transition">Register</a></li>
+                        <li><a href="#privacy" data-stub class="ink-soft hover:ink transition">Privacy Policy</a></li>
+                        <li><a href="#terms" data-stub class="ink-soft hover:ink transition">Terms and Conditions</a></li>
+                        <li><a href="#compliance" data-stub class="ink-soft hover:ink transition">Compliance</a></li>
+                    </ul>
+                </div>
+                <div class="md:col-span-3">
+                    <h4 class="meta mb-6">Contact</h4>
+                    <ul class="space-y-3 text-[15px] ink">
+                        <li class="ink-soft">Mon to Fri 09:00 / 22:00</li>
+                        <li class="ink-soft">Sat to Sun 09:00 / 19:00</li>
+                        <li class="pt-3"><a href="#consult" data-stub class="link-ink">Speak with a clinician</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-rule pt-8 space-y-4 mb-8 max-w-5xl">
+                <p class="meta leading-[1.7]" style="font-size: 11px;">Peplogix provides peptide and wellness-support products designed for responsible, informed use. Product availability, eligibility, and appropriate use may vary by state, provider, pharmacy, and applicable law.</p>
+                <p class="meta leading-[1.7]" style="font-size: 11px;">Information on this website is for educational purposes only and is not a substitute for medical advice, diagnosis, or treatment. Product use should be reviewed with a licensed medical professional, especially if you are pregnant, breastfeeding, taking medication, managing a medical condition, or under active medical care.</p>
+                <p class="meta leading-[1.7]" style="font-size: 11px;">Compounded products, where applicable, are not FDA-approved and are not reviewed by FDA for safety, effectiveness, or quality before marketing.</p>
+            </div>
+
+            <div class="border-t border-rule pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="meta">© 2026 Peplogix · LogixMD network</p>
+                <div class="flex items-center gap-4 meta ink-soft">
+                    <span>Visa</span>
+                    <span>Mastercard</span>
+                    <span>HSA / FSA where applicable</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobileMenu" class="mobile-menu" role="dialog" aria-modal="true" aria-label="Mobile navigation">
+        <div class="mobile-menu__overlay" onclick="this.parentElement.classList.remove('open')"></div>
+        <div class="mobile-menu__panel">
+            <div class="flex justify-between items-center mb-10">
+                <div class="display-s text-[22px] ink">Peplogix</div>
+                <button onclick="document.getElementById('mobileMenu').classList.remove('open')" class="w-10 h-10 border border-ink flex items-center justify-center ink" aria-label="Close menu">✕</button>
+            </div>
+            <nav>
+                <a href="index.html" class="mobile-menu__link" data-num="01">Home</a>
+                <a href="products.html" class="mobile-menu__link active" data-num="02">Products</a>
+                <a href="index.html#testing" class="mobile-menu__link" data-num="03">Testing</a>
+                <a href="#medical-review" data-stub class="mobile-menu__link" data-num="04">Medical Review</a>
+                <a href="#faq" data-stub class="mobile-menu__link" data-num="05">FAQ</a>
+                <a href="index.html#contact" class="mobile-menu__link" data-num="06">Contact</a>
+            </nav>
+            <div class="mt-10 pt-8 border-t border-rule space-y-3">
+                <a href="#medical-review" data-stub class="btn btn-primary w-full justify-center">
+                    Start Medical Review <span class="arrow">→</span>
+                </a>
+                <a href="#md-login" data-stub class="block text-center meta ink-soft py-3">MD Login →</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom nav -->
+    <div class="bottom-nav" aria-label="Primary mobile navigation">
+        <a href="index.html">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5L12 4l9 7.5"/><path d="M5 10v10h14V10"/></svg>
+            <span>Home</span>
+        </a>
+        <a href="products.html" class="active">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M4 12h16"/></svg>
+            <span>Products</span>
+        </a>
+        <a href="index.html#testing">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h6"/><path d="M10 3v6L4 19a2 2 0 0 0 1.7 3h12.6a2 2 0 0 0 1.7-3L14 9V3"/><path d="M7 14h10"/></svg>
+            <span>Testing</span>
+        </a>
+        <a href="#medical-review" data-stub>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v6"/><path d="M9 6h6"/><path d="M5 22v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2"/><circle cx="12" cy="12" r="4"/></svg>
+            <span>Review</span>
+        </a>
+        <a href="#account" data-stub>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 22a8 8 0 0 1 16 0"/></svg>
+            <span>Account</span>
+        </a>
+    </div>
+
+    <!-- Product detail modal -->
+    <div id="productModal" class="product-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalProductName">
+        <div class="product-modal__overlay" data-modal-close></div>
+        <div class="product-modal__panel" role="document">
+            <button type="button" class="product-modal__close" data-modal-close aria-label="Close product detail">✕</button>
+            <div class="product-modal__inner" id="modalBody"></div>
+        </div>
+    </div>
+
+    <script>
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* ---------- Product data ---------- */
+    const PRODUCTS = [
+        { id: 1, code: '5-Amino-1 MQ', name: '5-Amino-1 MQ', sub: 'Capsules · 50mg', cat: ['metabolic'], orig: 225.00, sale: 157.50 },
+        { id: 2, code: 'Adipotide', name: 'Adipotide', sub: '10mg', cat: ['metabolic'], orig: 75.00, sale: 45.00 },
+        { id: 3, code: 'AICAR', name: 'AICAR', sub: '50mg', cat: ['research', 'metabolic'], orig: 100.00, sale: 60.00 },
+        { id: 4, code: 'AOD-9604', name: 'AOD-9604', sub: 'Reconstituted · 10mg', cat: ['metabolic'], orig: 150.00, sale: 90.00 },
+        { id: 5, code: 'ARA-290', name: 'ARA-290', sub: '20mg', cat: ['immunity', 'healing'], orig: 125.00, sale: 75.00 },
+        { id: 6, code: 'Bac Water', name: 'Bacteriostatic Water', sub: '30mL', cat: ['research'], orig: 18.00, sale: 7.50 },
+        { id: 7, code: 'BPC Wolverine', name: 'BPC Wolverine', sub: '10mg / 10mg', cat: ['healing'], orig: 150.00, sale: 90.00, img: 'Peptide_3.png' },
+        { id: 8, code: 'BPC Wolverine', name: 'BPC Wolverine', sub: '10mg / 2.5mg', cat: ['healing'], orig: 125.00, sale: 75.00 },
+        { id: 9, code: 'BPC W. + KPV', name: 'BPC Wolverine + KPV', sub: '10mg / 10mg / 10mg', cat: ['healing', 'immunity'], orig: 200.00, sale: 120.00 },
+        { id: 10, code: 'BPC W. + MGF', name: 'BPC Wolverine + MGF', sub: '10mg / 2.5mg / 1mg', cat: ['healing'], orig: 135.00, sale: 81.00 },
+        { id: 11, code: 'BPC W. + MGF + KPV', name: 'BPC Wolverine + MGF & KPV', sub: '10mg / 2.5mg / 1mg / 1mg', cat: ['healing', 'immunity'], orig: 150.00, sale: 90.00 },
+        { id: 12, code: 'BPC-157', name: 'BPC-157', sub: '10mg', cat: ['healing'], orig: 75.00, sale: 45.00 },
+        { id: 13, code: 'BPC-157 / TB-500', name: 'BPC-157 / TB-500', sub: 'Capsules · 1mg', cat: ['healing'], orig: 225.00, sale: 157.50 },
+        { id: 14, code: 'BPC-157 Caps', name: 'BPC-157', sub: 'Capsules · 500mcg', cat: ['healing'], orig: 150.00, sale: 105.00 },
+        { id: 15, code: 'Cagrilintide', name: 'Cagrilintide', sub: '10mg', cat: ['metabolic'], orig: 150.00, sale: 90.00 },
+        { id: 16, code: 'Cerebra X', name: 'Cerebra X', sub: 'Capsules · 30mg', cat: ['cognitive'], orig: 250.00, sale: 175.00 },
+        { id: 17, code: 'Cerebrolysin', name: 'Cerebrolysin', sub: '60mg', cat: ['cognitive'], orig: 100.00, sale: 60.00 },
+        { id: 18, code: 'CJC-1295 / Ipa', name: 'CJC-1295 / Ipamorelin', sub: '5mg / 5mg', cat: ['metabolic', 'strength'], orig: 100.00, sale: 60.00, img: 'Peptide_2.png' },
+        { id: 19, code: 'Dihexa', name: 'Dihexa', sub: 'Capsules · 5mg', cat: ['cognitive'], orig: 225.00, sale: 157.50 },
+        { id: 20, code: 'DSIP', name: 'DSIP', sub: '10mg', cat: ['cognitive', 'longevity'], orig: 75.00, sale: 45.00 },
+        { id: 21, code: 'Epigen X', name: 'Epigen X', sub: 'Capsules · 100mg', cat: ['longevity'], orig: 250.00, sale: 175.00 },
+        { id: 22, code: 'Epithalon', name: 'Epithalon (Epitalon)', sub: '50mg', cat: ['longevity'], orig: 75.00, sale: 45.00 },
+        { id: 23, code: 'Epithalon Recon', name: 'Epithalon', sub: 'Reconstituted · 50mg', cat: ['longevity'], orig: 150.00, sale: 90.00 },
+        { id: 24, code: 'Epithalon Caps', name: 'Epithalon', sub: 'Capsules · 1mg', cat: ['longevity'], orig: 175.00, sale: 122.50 },
+        { id: 25, code: 'GHK-Cu', name: 'GHK-Cu', sub: '100mg', cat: ['skin', 'healing'], orig: 100.00, sale: 60.00 },
+        { id: 26, code: 'GHK-Cu', name: 'GHK-Cu', sub: '50mg', cat: ['skin', 'healing'], orig: 75.00, sale: 45.00, img: 'Peptide_4.png' },
+        { id: 27, code: 'GHK-Cu Caps', name: 'GHK-Cu', sub: 'Capsules · 2mg', cat: ['skin'], orig: 150.00, sale: 105.00 },
+        { id: 28, code: 'GHK-Cu Serum', name: 'GHK-Cu Peptide Serum', sub: '15mL', cat: ['skin'], orig: 125.00, sale: 75.00 },
+        { id: 29, code: 'GHK-Cu + SNAP-8', name: 'GHK-Cu Serum + SNAP-8', sub: '15mL', cat: ['skin'], orig: 150.00, sale: 90.00 },
+        { id: 30, code: 'GHK-Cu Super', name: 'GHK-Cu Super Serum w/ SNAP-8', sub: '30mL', cat: ['skin'], orig: 175.00, sale: 105.00 },
+        { id: 31, code: 'Glow', name: 'Glow Blend', sub: 'Variants', cat: ['skin', 'longevity'], orig: 105.00, sale: 75.00 },
+        { id: 32, code: 'Glow Caps', name: 'Glow', sub: 'Capsules · 103mg', cat: ['skin', 'longevity'], orig: 250.00, sale: 175.00 },
+        { id: 33, code: 'Glutathione', name: 'Glutathione', sub: 'Variants', cat: ['immunity', 'longevity'], orig: 75.00, sale: 45.00 },
+        { id: 34, code: 'Glutathione Recon', name: 'Glutathione', sub: 'Reconstituted · 6000mg', cat: ['immunity', 'longevity'], orig: 300.00, sale: 180.00 },
+        { id: 35, code: 'Gut Inflam.', name: 'Gut Inflammation', sub: 'Capsules · 2mg', cat: ['healing', 'immunity'], orig: 300.00, sale: 210.00 },
+        { id: 36, code: 'HCG', name: 'HCG', sub: '5000iu', cat: ['sexual'], orig: 50.00, sale: 30.00 },
+        { id: 37, code: 'IGF-LR3', name: 'IGF-LR3', sub: '1mg', cat: ['strength', 'metabolic'], orig: 100.00, sale: 60.00 },
+        { id: 38, code: 'Ipamorelin', name: 'Ipamorelin', sub: '10mg', cat: ['metabolic', 'strength'], orig: 75.00, sale: 45.00 },
+        { id: 39, code: 'Kisspeptin', name: 'Kisspeptin', sub: '10mg', cat: ['sexual'], orig: 50.00, sale: 30.00 },
+        { id: 40, code: 'Klow', name: 'Klow Blend', sub: '50mg / 10mg / 10mg / 10mg', cat: ['skin', 'longevity'], orig: 200.00, sale: 120.00 },
+        { id: 41, code: 'Klow Caps', name: 'Klow', sub: 'Capsules · 103.5mg', cat: ['skin', 'longevity'], orig: 250.00, sale: 175.00 },
+        { id: 42, code: 'KPV', name: 'KPV', sub: '10mg', cat: ['immunity', 'healing'], orig: 75.00, sale: 45.00 },
+        { id: 43, code: 'KPV Caps', name: 'KPV', sub: 'Capsules · 500mcg', cat: ['immunity'], orig: 125.00, sale: 87.50 },
+        { id: 44, code: 'L-Carnitine', name: 'L-Carnitine', sub: 'Reconstituted · 600mg', cat: ['metabolic'], orig: 75.00, sale: 45.00 },
+        { id: 45, code: 'Libido Drive', name: 'Libido Drive', sub: 'Capsules · 102mg', cat: ['sexual'], orig: 250.00, sale: 175.00 },
+        { id: 46, code: 'Limitless', name: 'Limitless', sub: 'Capsules · 102.6mg', cat: ['cognitive'], orig: 250.00, sale: 175.00 },
+        { id: 47, code: 'Lipo-C', name: 'Lipo-C', sub: 'Reconstituted · 10mL', cat: ['metabolic'], orig: 125.00, sale: 75.00 },
+        { id: 48, code: 'Liraglutide', name: 'Liraglutide', sub: 'Variants', cat: ['metabolic'], orig: 75.00, sale: 45.00 },
+        { id: 49, code: 'LumiCera', name: 'LumiCera Serum', sub: '30mL', cat: ['skin'], orig: 100.00, sale: 60.00 },
+        { id: 50, code: 'Melanotan 2', name: 'Melanotan 2', sub: '10mg', cat: ['sexual', 'skin'], orig: 50.00, sale: 30.00 },
+        { id: 51, code: 'Methylene Blue', name: 'Methylene Blue', sub: 'Capsules · 25mg', cat: ['cognitive', 'longevity'], orig: 150.00, sale: 105.00 },
+        { id: 52, code: 'Mind Blue', name: 'Mind Blue', sub: 'Capsules · 15mg', cat: ['cognitive'], orig: 250.00, sale: 175.00 },
+        { id: 53, code: 'Mito Sync', name: 'Mito Sync', sub: 'Capsules · 610mg', cat: ['longevity'], orig: 300.00, sale: 210.00 },
+        { id: 54, code: 'MK-677', name: 'MK-677', sub: 'Capsules · 20mg', cat: ['metabolic', 'strength'], orig: 200.00, sale: 140.00 },
+        { id: 55, code: 'MOTS-c', name: 'MOTS-c', sub: 'Variants', cat: ['longevity', 'metabolic'], orig: 75.00, sale: 45.00 },
+        { id: 56, code: 'NAD+', name: 'NAD+', sub: '1000mg', cat: ['longevity'], orig: 175.00, sale: 105.00 },
+        { id: 57, code: 'NAD+ Spray', name: 'NAD+ Nasal Spray', sub: '4500mg', cat: ['longevity'], orig: 150.00, sale: 90.00 },
+        { id: 58, code: 'Nerium Blue', name: 'Nerium Blue', sub: 'Capsules · 55.5mg', cat: ['cognitive', 'longevity'], orig: 250.00, sale: 175.00 },
+        { id: 59, code: 'Night Time', name: 'Night Time Serum', sub: '30mL', cat: ['skin'], orig: 100.00, sale: 60.00 },
+        { id: 60, code: 'NMN', name: 'NMN', sub: 'Capsules · 500mg', cat: ['longevity'], orig: 125.00, sale: 87.50 },
+        { id: 61, code: 'Orfo Fuel', name: 'Orfo Fuel', sub: 'Capsules · 6.25mg', cat: ['metabolic'], orig: 300.00, sale: 210.00 },
+        { id: 62, code: 'Oxytocin', name: 'Oxytocin', sub: '10mg', cat: ['sexual'], orig: 50.00, sale: 30.00 },
+        { id: 63, code: 'Pinealon', name: 'Pinealon', sub: '20mg', cat: ['cognitive', 'longevity'], orig: 50.00, sale: 30.00 },
+        { id: 64, code: 'PNC-27', name: 'PNC-27', sub: '10mg', cat: ['research'], orig: 150.00, sale: 90.00 },
+        { id: 65, code: 'PT-141', name: 'PT-141', sub: '10mg', cat: ['sexual'], orig: 50.00, sale: 30.00 },
+        { id: 66, code: 'Reta (GLP-3)', name: 'Reta (GLP-3)', sub: 'Variants', cat: ['metabolic'], orig: 140.00, sale: 25.00 },
+        { id: 67, code: 'Reta Recon', name: 'Reta (GLP-3)', sub: 'Reconstituted · 60mg', cat: ['metabolic'], orig: 750.00, sale: 150.00 },
+        { id: 68, code: 'Reta x4 Vials', name: 'Reta (GLP-3) · x 4 Single Dose Vials', sub: 'Variants', cat: ['metabolic'], orig: 150.00, sale: 90.00 },
+        { id: 69, code: 'Selank', name: 'Selank', sub: '10mg', cat: ['cognitive'], orig: 75.00, sale: 45.00 },
+        { id: 70, code: 'Sema (GLP-1)', name: 'Sema (GLP-1)', sub: 'Variants', cat: ['metabolic'], orig: 65.00, sale: 15.00 },
+        { id: 71, code: 'Sema / BPC-157', name: 'Sema (GLP-1) / BPC-157', sub: '30mg / 3.5mg', cat: ['metabolic', 'healing'], orig: 350.00, sale: 70.00 },
+        { id: 72, code: 'Sema / BPC-157', name: 'Sema (GLP-1) / BPC-157', sub: '5mg / 650mcg', cat: ['metabolic', 'healing'], orig: 125.00, sale: 25.00 },
+        { id: 73, code: 'Semax', name: 'Semax', sub: '10mg', cat: ['cognitive'], orig: 75.00, sale: 45.00 },
+        { id: 74, code: 'Semax / Selank', name: 'Semax / Selank', sub: '10mg / 10mg', cat: ['cognitive'], orig: 175.00, sale: 105.00 },
+        { id: 75, code: 'Sermorelin', name: 'Sermorelin', sub: '10mg', cat: ['metabolic', 'strength'], orig: 75.00, sale: 45.00 },
+        { id: 76, code: 'Sermorelin Caps', name: 'Sermorelin', sub: 'Capsules · 1mg', cat: ['metabolic', 'strength'], orig: 200.00, sale: 140.00 },
+        { id: 77, code: 'Slimetry', name: 'Slimetry', sub: 'Capsules · 26.15mg', cat: ['metabolic'], orig: 250.00, sale: 175.00 },
+        { id: 78, code: 'SLU-PP-332 / 5-AMQ', name: 'SLU-PP-332 / 5-Amino-1MQ', sub: 'Capsules · 50.25mg', cat: ['metabolic'], orig: 200.00, sale: 140.00 },
+        { id: 79, code: 'SLU-PP-332', name: 'SLU-PP-332', sub: 'Capsules · 250mcg', cat: ['metabolic'], orig: 125.00, sale: 87.50 },
+        { id: 80, code: 'Somni X', name: 'Somni X', sub: 'Capsules · 254.5mg', cat: ['cognitive', 'longevity'], orig: 250.00, sale: 175.00 },
+        { id: 81, code: 'TB-500 Caps', name: 'TB-500', sub: 'Capsules · 500mcg', cat: ['healing'], orig: 150.00, sale: 105.00 },
+        { id: 82, code: 'TB500', name: 'TB500 (Thymosin Beta-4)', sub: '10mg', cat: ['healing'], orig: 100.00, sale: 60.00 },
+        { id: 83, code: 'Tesamorelin', name: 'Tesamorelin', sub: 'Variants', cat: ['metabolic', 'strength'], orig: 75.00, sale: 45.00 },
+        { id: 84, code: 'Tesa / CJC / Ipa', name: 'Tesamorelin / CJC-1295 / Ipamorelin', sub: '6mg / 3mg / 3mg', cat: ['metabolic', 'strength'], orig: 125.00, sale: 75.00 },
+        { id: 85, code: 'Tesa / Ipa', name: 'Tesamorelin / Ipamorelin', sub: '5mg / 5mg', cat: ['metabolic', 'strength'], orig: 100.00, sale: 60.00, img: 'Peptide_1.png' },
+        { id: 86, code: 'Tesofensine', name: 'Tesofensine', sub: 'Capsules · 500mcg', cat: ['metabolic'], orig: 200.00, sale: 140.00 },
+        { id: 87, code: 'Thermox', name: 'Thermox', sub: 'Capsules · 175mg', cat: ['metabolic'], orig: 250.00, sale: 175.00 },
+        { id: 88, code: 'Thymosin α-1', name: 'Thymosin Alpha-1', sub: '10mg', cat: ['immunity'], orig: 100.00, sale: 60.00 },
+        { id: 89, code: 'Tirz (GLP-2)', name: 'Tirz (GLP-2)', sub: 'Variants', cat: ['metabolic'], orig: 130.00, sale: 20.00 },
+        { id: 90, code: 'Tirz Recon', name: 'Tirz (GLP-2)', sub: 'Reconstituted · 60mg', cat: ['metabolic'], orig: 700.00, sale: 140.00 },
+        { id: 91, code: 'Tirz / BPC-157', name: 'Tirz (GLP-2) / BPC-157', sub: '30mg / 1.3mg', cat: ['metabolic', 'healing'], orig: 400.00, sale: 80.00 },
+        { id: 92, code: 'Tirz / BPC-157', name: 'Tirz (GLP-2) / BPC-157', sub: '60mg / 2.6mg', cat: ['metabolic', 'healing'], orig: 700.00, sale: 140.00 },
+        { id: 93, code: 'Tirz x4 Vials', name: 'Tirz (GLP-2) · x 4 Single Dose Vials', sub: 'Variants', cat: ['metabolic'], orig: 140.00, sale: 90.00 },
+        { id: 94, code: 'VIP', name: 'VIP', sub: '10mg', cat: ['immunity', 'cognitive'], orig: 100.00, sale: 60.00 }
+    ];
+
+    /* ---------- Render product grid ---------- */
+    const grid = document.getElementById('productGrid');
+    const visibleCountEl = document.getElementById('visibleCount');
+    const cartCountEl = document.getElementById('cartCount');
+    const emptyState = document.getElementById('emptyState');
+    let cartCount = 0;
+
+    function fmt(n) {
+        return '$' + n.toFixed(2).replace(/\.00$/, '');
+    }
+
+    function renderProducts() {
+        const html = PRODUCTS.map((p) => {
+            const idx = String(p.id).padStart(3, '0');
+            const onSale = p.orig > p.sale;
+            const catTags = p.cat.join(' ');
+            const primaryCat = p.cat[0].charAt(0).toUpperCase() + p.cat[0].slice(1);
+            const img = p.img || 'Peptide_placeholder.png';
+            return `
+                <a href="#product-${p.id}" class="product-card" data-cats="${catTags}" data-product-id="${p.id}">
+                    <div class="product-card-vial">
+                        <span class="product-card-meta-top">
+                            <span>${primaryCat}</span>
+                            <span>· ${idx}</span>
+                        </span>
+                        <img src="${img}" alt="${p.name} vial" loading="lazy">
+                    </div>
+                    <div class="product-card-info">
+                        <div class="product-name">${p.code}</div>
+                        <div class="product-sub">${p.sub}</div>
+                        <div class="product-badges">
+                            <span class="badge badge-purity">≥ 99%</span>
+                            <span class="badge">RUO</span>
+                        </div>
+                    </div>
+                    <div class="product-card-foot">
+                        <div class="price-row">
+                            <span class="price-now">${fmt(p.sale)}</span>
+                            ${onSale ? `<span class="price-was">${fmt(p.orig)}</span>` : ''}
+                            ${onSale ? `<span class="price-tag">Sale</span>` : ''}
+                        </div>
+                        <button type="button" class="add-cta" data-add="${p.id}" aria-label="Add ${p.name} to cart">
+                            <span>Add to cart</span>
+                            <span class="arrow">→</span>
+                        </button>
+                    </div>
+                </a>
+            `;
+        }).join('');
+        grid.innerHTML = html;
+    }
+
+    /* ---------- Filter ---------- */
+    function setFilter(cat) {
+        const cards = grid.querySelectorAll('.product-card');
+        let visible = 0;
+        cards.forEach(card => {
+            const cats = (card.dataset.cats || '').split(/\s+/);
+            if (cat === 'all' || cats.includes(cat)) {
+                card.classList.remove('hidden');
+                visible++;
+            } else {
+                card.classList.add('hidden');
+            }
+        });
+        document.querySelectorAll('.filter-chip').forEach(chip => {
+            chip.classList.toggle('is-active', chip.dataset.filter === cat);
+        });
+        visibleCountEl.textContent = visible;
+        emptyState.classList.toggle('is-visible', visible === 0);
+    }
+
+    document.querySelectorAll('.filter-chip').forEach(chip => {
+        chip.addEventListener('click', () => setFilter(chip.dataset.filter));
+    });
+
+    renderProducts();
+
+    /* ---------- Add to cart from listing card ---------- */
+    grid.addEventListener('click', (e) => {
+        const btn = e.target.closest('.add-cta');
+        if (!btn) return;
+        e.preventDefault();
+        e.stopPropagation();
+        cartCount++;
+        cartCountEl.textContent = cartCount;
+        showToast('Added to cart');
+    });
+
+    /* ---------- Open product modal on card click ---------- */
+    const CATEGORY_DESCRIPTIONS = {
+        metabolic:  'Targeted formulation associated with metabolic regulation, including glucose response, fatty-acid utilization, and energy partitioning. Intended for clinician-guided protocols.',
+        cognitive:  'Peptide formulation associated with cognitive function, neural communication, and memory pathway support. For research and clinician-guided use.',
+        healing:    'Tissue-support and recovery peptide associated with cellular repair, gut integrity, and connective-tissue regeneration pathways.',
+        longevity:  'Longevity-associated formulation interacting with mitochondrial signaling, telomere protection, or cellular maintenance pathways.',
+        immunity:   'Immunomodulatory peptide associated with anti-inflammatory pathways and innate immune regulation.',
+        sexual:     'Peptide associated with hormonal pathways and sexual health support. Should be reviewed with a licensed medical provider.',
+        strength:   'Peptide associated with the growth-hormone axis, protein synthesis, and lean-mass support.',
+        skin:       'Topical or systemic formulation associated with skin remodeling, collagen synthesis, and tissue regeneration.',
+        research:   'Research-grade compound supplied for laboratory use only. Not for human or veterinary use.'
+    };
+    const CATEGORY_LABEL = {
+        metabolic: 'Metabolic',
+        cognitive: 'Cognitive',
+        healing:   'Healing',
+        longevity: 'Longevity',
+        immunity:  'Immunity',
+        sexual:    'Sexual Health',
+        strength:  'Strength',
+        skin:      'Skin',
+        research:  'Research'
+    };
+
+    const productModal = document.getElementById('productModal');
+    const modalBody = document.getElementById('modalBody');
+    let lastFocused = null;
+
+    function openProductModal(productId) {
+        const p = PRODUCTS.find(x => x.id === productId);
+        if (!p) return;
+        const idx = String(p.id).padStart(3, '0');
+        const onSale = p.orig > p.sale;
+        const primaryCat = p.cat[0];
+        const catLabel = CATEGORY_LABEL[primaryCat] || primaryCat;
+        const description = CATEGORY_DESCRIPTIONS[primaryCat] || '';
+        const allCats = p.cat.map(c => CATEGORY_LABEL[c] || c).join(' · ');
+        const img = p.img || 'Peptide_placeholder.png';
+
+        modalBody.innerHTML = `
+            <div class="modal-vial-area">
+                <div class="modal-meta-strip">
+                    <span>${catLabel}</span>
+                    <span>· ${idx} / 094</span>
+                </div>
+                <img src="${img}" alt="${p.name} vial">
+                <div class="modal-tags">
+                    <span class="badge badge-purity">≥ 99%</span>
+                    <span class="badge">RUO</span>
+                    <span class="badge">Lab-Verified</span>
+                </div>
+            </div>
+            <div class="modal-details">
+                <div class="meta-line">SKU PEP-${idx}</div>
+                <h2 class="modal-name" id="modalProductName">${p.name}</h2>
+                <div class="modal-sub">${p.sub}</div>
+                ${onSale ? `<span class="modal-sale-pill">Special Price · Save ${Math.round((1 - p.sale/p.orig)*100)}%</span>` : ''}
+                <div class="modal-prices">
+                    <span class="price-now">${fmt(p.sale)}</span>
+                    ${onSale ? `<span class="price-was">${fmt(p.orig)}</span>` : ''}
+                </div>
+                <p class="modal-description">${description}</p>
+                <div class="modal-spec-grid">
+                    <div><span class="label">Pathway</span><span class="value">${allCats}</span></div>
+                    <div><span class="label">Format</span><span class="value">${p.sub}</span></div>
+                    <div><span class="label">Purity</span><span class="value">Exceeds 99%</span></div>
+                    <div><span class="label">Status</span><span class="value">Research Use Only</span></div>
+                </div>
+                <div class="modal-cta-row">
+                    <div class="qty">
+                        <button type="button" data-qty="-1" aria-label="Decrease quantity">−</button>
+                        <input id="modalQty" type="number" value="1" min="1" max="20" aria-label="Quantity">
+                        <button type="button" data-qty="1" aria-label="Increase quantity">+</button>
+                    </div>
+                    <button type="button" class="modal-add" data-modal-add="${p.id}">
+                        Add to cart <span class="arrow">→</span>
+                    </button>
+                </div>
+                <p class="modal-disclaimer">Peptide products are supplied for research, laboratory, and qualified clinical use. Product use should be reviewed with a licensed medical professional. <a href="#terms" data-stub>Terms and conditions</a> apply.</p>
+            </div>
+        `;
+
+        lastFocused = document.activeElement;
+        productModal.classList.add('is-open');
+        productModal.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('modal-open');
+        // Focus the close button after open
+        const closeBtn = productModal.querySelector('.product-modal__close');
+        if (closeBtn) setTimeout(() => closeBtn.focus(), 80);
+    }
+
+    function closeProductModal() {
+        productModal.classList.remove('is-open');
+        productModal.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('modal-open');
+        modalBody.innerHTML = '';
+        if (lastFocused && typeof lastFocused.focus === 'function') {
+            lastFocused.focus();
+        }
+    }
+
+    /* Card click → open modal (skip clicks on add-cta) */
+    grid.addEventListener('click', (e) => {
+        const card = e.target.closest('.product-card');
+        if (!card) return;
+        if (e.target.closest('.add-cta')) return;
+        e.preventDefault();
+        const id = parseInt(card.dataset.productId, 10);
+        if (!isNaN(id)) openProductModal(id);
+    });
+
+    /* Modal close handlers */
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('[data-modal-close]')) closeProductModal();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && productModal.classList.contains('is-open')) closeProductModal();
+    });
+
+    /* Modal qty + add to cart */
+    modalBody.addEventListener('click', (e) => {
+        const qBtn = e.target.closest('[data-qty]');
+        if (qBtn) {
+            const input = document.getElementById('modalQty');
+            if (!input) return;
+            const delta = parseInt(qBtn.dataset.qty, 10);
+            let val = (parseInt(input.value, 10) || 1) + delta;
+            val = Math.max(1, Math.min(20, val));
+            input.value = val;
+            return;
+        }
+        const addBtn = e.target.closest('[data-modal-add]');
+        if (addBtn) {
+            const input = document.getElementById('modalQty');
+            const qty = Math.max(1, parseInt(input ? input.value : 1, 10) || 1);
+            cartCount += qty;
+            cartCountEl.textContent = cartCount;
+            showToast(`Added ${qty} to cart`);
+            closeProductModal();
+        }
+    });
+
+    /* ---------- Stub link handler + toast ---------- */
+    const toast = document.createElement('div');
+    toast.className = 'stub-toast';
+    toast.setAttribute('role', 'status');
+    toast.setAttribute('aria-live', 'polite');
+    document.body.appendChild(toast);
+    let toastTimer = null;
+    function showToast(label) {
+        toast.innerHTML = `<span style="color: var(--copper);">→</span> ${label}`;
+        toast.classList.add('visible');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove('visible'), 2400);
+    }
+
+    document.addEventListener('click', (e) => {
+        const a = e.target.closest('a[data-stub], button[data-stub]');
+        if (!a) return;
+        if (a.classList.contains('add-cta')) return;
+        e.preventDefault();
+        const label = (a.textContent || '').trim().replace(/\s+→\s*$/, '').slice(0, 48) || a.getAttribute('aria-label') || 'This page';
+        const target = a.getAttribute('href') || a.dataset.stub || '';
+        showToast(`${label} · coming soon`);
+        console.info('[stub-link]', target, '— add a real destination');
+        const mm = document.getElementById('mobileMenu');
+        if (mm && mm.classList.contains('open')) mm.classList.remove('open');
+    });
+
+    /* ---------- Sticky condensed nav ---------- */
+    const stickyNav = document.getElementById('stickyNav');
+    const heroEl = document.querySelector('.page-head');
+    if (stickyNav && heroEl) {
+        const stickyObs = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) {
+                    stickyNav.classList.add('visible');
+                    stickyNav.setAttribute('aria-hidden', 'false');
+                } else {
+                    stickyNav.classList.remove('visible');
+                    stickyNav.setAttribute('aria-hidden', 'true');
+                }
+            });
+        }, { threshold: 0, rootMargin: '-72px 0px 0px 0px' });
+        stickyObs.observe(heroEl);
+    }
+
+    /* ---------- Scroll Reveal ---------- */
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    /* ---------- Filter strip stuck-state visual ---------- */
+    const filterStrip = document.getElementById('filters');
+    if (filterStrip) {
+        const stripObs = new IntersectionObserver(([entry]) => {
+            filterStrip.classList.toggle('is-stuck', !entry.isIntersecting);
+        }, { rootMargin: '-1px 0px 0px 0px', threshold: [1] });
+        const sentinel = document.createElement('div');
+        sentinel.style.cssText = 'position:absolute;top:0;height:1px;width:1px;';
+        filterStrip.style.position = 'sticky';
+        filterStrip.parentNode.insertBefore(sentinel, filterStrip);
+        stripObs.observe(sentinel);
+    }
+
+    /* ---------- Read URL hash for category ---------- */
+    function applyHashFilter() {
+        const hash = window.location.hash.replace('#', '');
+        if (hash && document.querySelector(`.filter-chip[data-filter="${hash}"]`)) {
+            setFilter(hash);
+        }
+    }
+    window.addEventListener('hashchange', applyHashFilter);
+    applyHashFilter();
+
+    /* ---------- Bottom nav hide/show on scroll (mobile) ---------- */
+    const bottomNav = document.querySelector('.bottom-nav');
+    let lastScroll = 0;
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                const y = window.scrollY;
+                if (bottomNav) {
+                    if (y > lastScroll && y > 240) bottomNav.style.transform = 'translateY(100%)';
+                    else bottomNav.style.transform = 'translateY(0)';
+                    bottomNav.style.transition = 'transform 280ms cubic-bezier(0.16,1,0.3,1)';
+                }
+                lastScroll = y;
+                ticking = false;
+            });
+            ticking = true;
+        }
+    }, { passive: true });
+    </script>
+
+</body>
+</html>
